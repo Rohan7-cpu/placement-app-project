@@ -1,6 +1,7 @@
 import axios from "axios";
+import API_URL from "./api";
 
-const API = "http://localhost:5000/api/users";
+const API = `${API_URL}/api/users`;
 
 export const uploadResume = async (id, file) => {
   const formData = new FormData();

@@ -1,6 +1,7 @@
 import axios from "axios";
+import API_URL from "./api";
 
-const API = "http://localhost:5000/api/interviews";
+const API = `${API_URL}/api/interviews`;
 
 export const getInterviews = async () => {
   const response = await axios.get(API);
