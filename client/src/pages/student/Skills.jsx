@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import PageHeader from "../../components/common/PageHeader";
@@ -20,11 +20,7 @@ function Skills() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    fetchSkills();
-  }, []);
-
-  const fetchSkills = async () => {
+  const fetchSkills = useCallback(async () => {
     try {
       const data = await getSkills();
 
@@ -36,7 +32,12 @@ function Skills() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [user.email]);
+
+  useEffect(() => {
+    fetchSkills();
+  }, [fetchSkills]);
+
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this skill?")) return;

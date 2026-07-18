@@ -23,47 +23,47 @@ function Dashboard() {
   const [interviews, setInterviews] = useState([]);
 
   useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const profile = await getProfile(user.id);
+
+        const applicationData = await getApplications();
+
+        const interviewData = await getInterviews();
+
+        const skillData = await getSkills();
+
+        const myApplications = applicationData.filter(
+          (app) => app.studentEmail === user.email
+        );
+
+        const myInterviews = interviewData.filter(
+          (item) => item.studentEmail === user.email
+        );
+
+        const mySkills = skillData.filter(
+          (skill) => skill.studentEmail === user.email
+        );
+
+        setApplications(myApplications);
+
+        setInterviews(myInterviews);
+
+        setStats({
+          appliedJobs: myApplications.length,
+          interviews: myInterviews.filter(
+            (item) => item.status === "Scheduled"
+          ).length,
+          skills: mySkills.length,
+          resume: profile.resume ? "Uploaded ✅" : "Not Uploaded ❌",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchDashboard();
-  }, []);
-
-  const fetchDashboard = async () => {
-    try {
-      const profile = await getProfile(user.id);
-
-      const applicationData = await getApplications();
-
-      const interviewData = await getInterviews();
-
-      const skillData = await getSkills();
-
-      const myApplications = applicationData.filter(
-        (app) => app.studentEmail === user.email
-      );
-
-      const myInterviews = interviewData.filter(
-        (item) => item.studentEmail === user.email
-      );
-
-      const mySkills = skillData.filter(
-        (skill) => skill.studentEmail === user.email
-      );
-
-      setApplications(myApplications);
-
-      setInterviews(myInterviews);
-
-      setStats({
-        appliedJobs: myApplications.length,
-        interviews: myInterviews.filter(
-          (item) => item.status === "Scheduled"
-        ).length,
-        skills: mySkills.length,
-        resume: profile.resume ? "Uploaded ✅" : "Not Uploaded ❌",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }, [user.id, user.email]);
 
   return (
     <DashboardLayout>

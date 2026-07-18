@@ -4,12 +4,10 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import PageHeader from "../../components/common/PageHeader";
 import SearchBar from "../../components/common/SearchBar";
 import DataTable from "../../components/tables/DataTable";
-import StatusBadge from "../../components/common/StatusBadge";
 import { getSkills } from "../../services/skillService";
 
 import { getUsers } from "../../services/userService";
-
-const BASE_URL = "http://localhost:5000";
+import API_URL from "../../services/api";
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -106,7 +104,7 @@ function Users() {
 <td>
   {user.resume ? (
     <a
-      href={`http://localhost:5000/uploads/${user.resume}`}
+      href={`${API_URL}/uploads/${user.resume}`}
       target="_blank"
       rel="noreferrer"
       className="bg-green-600 text-white px-3 py-1 rounded"

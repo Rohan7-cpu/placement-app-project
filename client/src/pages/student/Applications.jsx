@@ -13,18 +13,18 @@ function Applications() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
+    const fetchApplications = async () => {
+      const data = await getApplications();
+
+      const myApplications = data.filter(
+        (app) => app.studentEmail === user.email
+      );
+
+      setApplications(myApplications);
+    };
+
     fetchApplications();
-  }, []);
-
-  const fetchApplications = async () => {
-    const data = await getApplications();
-
-    const myApplications = data.filter(
-      (app) => app.studentEmail === user.email
-    );
-
-    setApplications(myApplications);
-  };
+  }, [user.email]);
 
   return (
     <DashboardLayout>

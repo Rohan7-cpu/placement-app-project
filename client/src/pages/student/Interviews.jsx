@@ -13,22 +13,22 @@ function Interviews() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
+    const fetchInterviews = async () => {
+      try {
+        const data = await getInterviews();
+
+        const myInterviews = data.filter(
+          (item) => item.studentEmail === user.email
+        );
+
+        setInterviews(myInterviews);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchInterviews();
-  }, []);
-
-  const fetchInterviews = async () => {
-    try {
-      const data = await getInterviews();
-
-      const myInterviews = data.filter(
-        (item) => item.studentEmail === user.email
-      );
-
-      setInterviews(myInterviews);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }, [user.email]);
 
   return (
     <DashboardLayout>
